@@ -1,0 +1,16 @@
+{
+  "mappings": {
+    "business-index-record": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "matchKey": {
+          "type": "string",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  }
+}
