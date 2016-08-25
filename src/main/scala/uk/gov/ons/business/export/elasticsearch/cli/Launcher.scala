@@ -8,14 +8,9 @@ import scala.concurrent.duration.Duration.{Inf => infinite}
 import scala.concurrent.{Await, Future}
 import scala.language.implicitConversions
 
-abstract class StatusCode(val value: Int)
-case object Success extends StatusCode(0)
-case object InvalidOption extends StatusCode(1)
-case object UnexpectedError extends StatusCode(99)
+class Launcher {
 
-class CommandLineLauncher {
-
-  def launch(args: Array[String]): Future[StatusCode] = {
+  def launch(args: Array[String]): Future[Unit] = {
     new LauncherOptionsParser().parse(args, LauncherOptions(null)) match {
       case Some(arguments) =>
         def ensureIndexExists(): Future[Unit] = {
@@ -29,21 +24,16 @@ class CommandLineLauncher {
 
         ensureIndexExists() map { _ =>
           new Exporter().export(arguments.businessIndexPath, arguments.elasticsearch.nodes)
-          Success
-        } recover { case exception: Throwable =>
-          exception.printStackTrace()
-          UnexpectedError
         }
-      case None =>
-        Future(InvalidOption)
+      case None => // parser will print error in that case
+        Future()
     }
   }
+
 }
 
-object CommandLineApplication extends App {
+object Application extends App {
 
-  private implicit def statusCodeToInt(statusCode: StatusCode): Int = statusCode.value
-
-  System.exit(Await.result[StatusCode](new CommandLineLauncher().launch(args), infinite))
+  Await.result(new Launcher().launch(args), infinite)
 
 }

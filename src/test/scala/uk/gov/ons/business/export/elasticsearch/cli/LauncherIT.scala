@@ -8,7 +8,9 @@ import org.scalatest.{FlatSpec, Matchers}
 import uk.gov.ons.business.model.BusinessIndexRecord
 import uk.gov.ons.business.{ElasticsearchServerSuiteMixin, TestData}
 
-class CommandLineLauncherIT extends FlatSpec with ScalaFutures with ElasticsearchServerSuiteMixin with TestData with Matchers {
+import scala.language.postfixOps
+
+class LauncherIT extends FlatSpec with ScalaFutures with ElasticsearchServerSuiteMixin with TestData with Matchers {
 
   private val mapper = new ObjectMapper().registerModule(DefaultScalaModule)
 
@@ -18,7 +20,7 @@ class CommandLineLauncherIT extends FlatSpec with ScalaFutures with Elasticsearc
 
     val businessIndexLocation: String = getClass.getResource("/fixtures/business-index").getPath
 
-    val result = new CommandLineLauncher().launch(Array(
+    val result = new Launcher().launch(Array(
       "--businessIndexPath", businessIndexLocation,
       "--elasticsearch.nodes", "localhost:9200"
     ))
