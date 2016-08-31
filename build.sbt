@@ -64,12 +64,19 @@ lazy val assemblySettings = Seq(
   }
 )
 
+// Modules
+
+val sparkVersion = "1.6.2"
+val sparkDependencyScope = "compile"
+
 val root = Project("business-index-exporter", file("."))
   .settings(artifactSettings: _*)
   .settings(buildSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
       "uk.gov.ons.business-register" %% "business-core" % "1.0.0-SNAPSHOT",
+      "org.apache.spark" %% "spark-core" % sparkVersion % sparkDependencyScope,
+      "org.apache.spark" %% "spark-sql" % sparkVersion % sparkDependencyScope,
       "com.github.scopt" %% "scopt" % "3.5.0",
       "org.scalaj" %% "scalaj-http" % "2.3.0",
       "org.elasticsearch" % "elasticsearch-hadoop" % "2.3.3",
