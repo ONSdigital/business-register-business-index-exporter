@@ -18,15 +18,25 @@ sbt package
 
 Above command will create `business-index-exporter_2.10-1.0.0-SNAPSHOT.jar` JAR file in `target/scala-2.10` directory.
 
-## How to build it with dependencies
+## How to prepare application distribution
 
-To build the project with all runtime dependencies (uber-jar) please execute following command:
+To build the project with all runtime dependencies in `lib` directory please execute following command:
 
 ```
-sbt assembly
+sbt stage
 ```
 
-Above command will create `business-index-exporter-assembly-1.0.0-SNAPSHOT.jar` JAR file in `target/scala-2.10` directory.
+Above command will create application distribution in `target/universal/stage` directory. Having created this, application can be launched locally using `target/universal/stage/bin/business-index-exporter` script or remotely using `target/universal/stage/scripts/run-in-cluster.sh` script.
+
+## How to prepare distribution package  
+
+To prepare distribution package please execute following command:
+
+```
+sbt dist
+```
+
+Above command will create distribution package `business-index-exporter-1.0.0-SNAPSHOT.zip` in `target/universal` directory.
 
 # How to export business index to Elasticsearch
 

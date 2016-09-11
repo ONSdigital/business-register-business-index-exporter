@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.MappingsHelper._
+
 lazy val artifactSettings = Seq(
   organization := "uk.gov.ons.business-register",
   version := "1.0.0-SNAPSHOT",
@@ -57,10 +59,20 @@ lazy val consoleSettings = Seq(
    """.stripMargin
 )
 
-lazy val assemblySettings = Seq(
-  assemblyMergeStrategy in assembly := {
-    case PathList("META-INF", _*) => MergeStrategy.discard
-    case _ => MergeStrategy.first
+lazy val packagingSettings = Seq(
+  // scripts
+  mappings in Universal ++= directory(baseDirectory.value / "scripts"),
+  // documentation
+  mappings in Universal += file("README.md") -> "README.md",
+  mappings in Universal ++= {
+    contentOf(baseDirectory.value / "docs") map { case (file: File, relativePath: String) =>
+      file -> ("share/doc/" + relativePath)
+    }
+  },
+  mappings in Universal ++= {
+    contentOf((doc in Compile).value) map { case (file: File, relativePath: String) =>
+      file -> ("share/doc/api/" + relativePath)
+    }
   }
 )
 
@@ -88,4 +100,5 @@ val root = Project("business-index-exporter", file("."))
     fork := true
   )
   .settings(consoleSettings: _*)
-  .settings(assemblySettings: _*)
+  .enablePlugins(JavaAppPackaging)
+  .settings(packagingSettings: _*)
