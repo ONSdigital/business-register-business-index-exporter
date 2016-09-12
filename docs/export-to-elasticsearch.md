@@ -38,3 +38,12 @@ spark-submit --master local[*]
 ```
 
 In above scenario all business index records would be searchable as `business-register/business-index-record` resource.
+
+## How to run it in the cluster
+
+If application has been built using `stage` or `dist` tasks then export process can be launched in the cluster by executing following command:
+
+```
+./scripts/run-in-cluster.sh --businessIndexPath /tmp/output/business-index-20160721/business-index
+                            --elasticsearch.nodes 192.168.0.99:9200
+```
