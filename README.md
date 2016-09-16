@@ -8,6 +8,12 @@ The purpose of this project is to provide set of tools to export business index 
 
 Project can be built using either `sbt` installed locally or `bin/sbt` script. First approach will be used in all examples presented here.
 
+## Cross project dependencies
+This project depends on the following projects being built and published:
+
+- ["uk.gov.ons.business-register" %% "business-core" % "1.0.0-SNAPSHOT"](https://github.com/ONSdigital/business-register-test-utils)
+- ["uk.gov.ons.business-register" %% "test-utils" % "1.0.0-SNAPSHOT" % "test"](https://github.com/ONSdigital/business-register-business-libs)
+ 
 ## How to build it without dependencies
 
 To build the project please execute following command:
